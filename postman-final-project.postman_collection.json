@@ -1,0 +1,323 @@
+{
+	"info": {
+		"_postman_id": "c9038420-09a8-4394-baa6-d6c054474cbc",
+		"name": "postman-final-project",
+		"description": "CRUD Operation\n\n- User created by generatting random data. Due to using the username as path param, it is generated within pre-request script and assign to a variable in collection level.\n    \n- Status code and Content Type check tests added as response validations.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37063226"
+	},
+	"item": [
+		{
+			"name": "create user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							"const randomId = Math.floor(Math.random()*100+1);",
+							"pm.collectionVariables.set(\"userId\", randomId);",
+							"",
+							"const randomStatus = Math.floor(Math.random()*100+1);",
+							"pm.collectionVariables.set(\"userStatus\", randomStatus);",
+							"",
+							"const username = Math.random().toString(36).substring(2);",
+							"pm.collectionVariables.set(\"username\", username);",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Status is code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"})",
+							"",
+							"pm.test(\"Content-Type is correct\", () => {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\"))",
+							"    .to.eql('application/json; charset=utf-8')",
+							"})",
+							"",
+							"pm.test(\"Response time is under limit\", () => {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"})",
+							"",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": {{userId}},\n  \"username\": \"{{username}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"email\": \"{{$randomEmail}}\",\n  \"password\": \"{{$randomPassword}}\",\n  \"phone\": \"{{$randomPhoneNumber}}\",\n  \"userStatus\": {{userStatus}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{petstoreUrl}}/user",
+					"host": [
+						"{{petstoreUrl}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user by name",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							"const randomId = Math.floor(Math.random()*100+1);",
+							"pm.collectionVariables.set(\"userId\", randomId);",
+							"",
+							"const randomStatus = Math.floor(Math.random()*100+1);",
+							"pm.collectionVariables.set(\"userStatus\", randomStatus);",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Status is code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"})",
+							"",
+							"pm.test(\"Content-Type is correct\", () => {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\"))",
+							"    .to.eql('application/json; charset=utf-8')",
+							"})",
+							"",
+							"pm.test(\"Response time is under limit\", () => {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"})",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": {{userId}},\n  \"username\": \"{{username}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"email\": \"{{$randomEmail}}\",\n  \"password\": \"{{$randomPassword}}\",\n  \"phone\": \"{{$randomPhoneNumber}}\",\n  \"userStatus\": {{userStatus}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{petstoreUrl}}/user?username={{username}}",
+					"host": [
+						"{{petstoreUrl}}"
+					],
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "{{username}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user by username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"})",
+							"",
+							"pm.test(\"Content-Type is correct\", () => {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\"))",
+							"    .to.eql('application/json; charset=utf-8')",
+							"})",
+							"",
+							"pm.test(\"Response time is under limit\", () => {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{petstoreUrl}}/user/{{username}}",
+					"host": [
+						"{{petstoreUrl}}"
+					],
+					"path": [
+						"user",
+						"{{username}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete user by username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Status is code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"})",
+							"",
+							"pm.test(\"Content-Type is correct\", () => {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\"))",
+							"    .to.eql('application/json; charset=utf-8')",
+							"})",
+							"",
+							"pm.test(\"Response time is under limit\", () => {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"})",
+							"",
+							"pm.collectionVariables.unset(\"userId\");",
+							"pm.collectionVariables.unset(\"username\");",
+							"pm.collectionVariables.unset(\"userStatus\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{petstoreUrl}}/user/{{username}}",
+					"host": [
+						"{{petstoreUrl}}"
+					],
+					"path": [
+						"user",
+						"{{username}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "petstoreUrl",
+			"value": "https://petstore.swagger.io/v2",
+			"type": "string"
+		}
+	]
+}
